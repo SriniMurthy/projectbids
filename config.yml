@@ -1,0 +1,63 @@
+#logging:
+#  level: DEBUG
+#  loggers:
+#    com.srini.projectbids: DEBUG
+    # Redirects SQL logs to a separate file
+ #   org.hibernate.SQL:
+#          level: DEBUG
+database:
+  driverClass: org.h2.Driver
+  user: "sa"
+  password: ""
+  url: jdbc:h2:./projectbidsdb;DB_CLOSE_ON_EXIT=FALSE
+  properties:
+    charSet: UTF-8
+    maxWaitForConnection: 1s
+    make-pool: true
+    excess-timeout: 99
+    idle-timeout: 88
+    minimum-pool-size: 5
+    maximum-pool-size: 20
+    test-connection-on-checkout: true
+    test-connection-query: "SELECT 1"
+    validationQuery: "/* MyService Health Check */ SELECT 1"
+    minSize: 8
+    maxSize: 32
+    checkConnectionWhileIdle: false
+    evictionInterval: 10s
+    minIdleTime: 1 minute
+    hibernate.dialect: org.hibernate.dialect.H2Dialect
+    hibernate.show_sql: true
+    hibernate.generate_statistics: false
+    hibernate.hbm2ddl.auto: create
+
+server:
+  rootPath: '/projectbids/*'
+  minThreads: 2
+  maxQueuedRequests: 3
+  applicationConnectors:
+     - type: http
+       port: 8080
+  requestLog:
+   appenders:
+     - type: console
+       threshold: DEBUG
+       logFormat: "%highlight(%-5level) [%cyan(%d{ISO8601})] %yellow(%c{25}): %m%n%xEx"
+     - type: file
+       threshold: ALL
+       currentLogFilename: ./log/server.log
+       archivedLogFilenamePattern: ./log/ess.%d.log.gz
+       archivedFileCount: 50
+       timeZone: UTC
+ # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+logging:
+  level: DEBUG
+
+  # Logger-specific levels.
+  loggers:
+    "com" : INFO
+    "org" : INFO
+    "io.dropwizard" : INFO
+    com.srini.projectbids: DEBUG
+    org.hibernate.SQL:
+              level: DEBUG
