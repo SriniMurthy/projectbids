@@ -21,6 +21,7 @@ public class BiddingResponse implements Serializable {
     List<Bid> bidList;
     String statusMessage;
 
+    /** Comment unrequited */
     private Integer status = null;
 
     public BiddingResponse(Status ok,String message,List<Bid> bidList) {
